@@ -1,29 +1,56 @@
-import React from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
+import Badge from "react-bootstrap/Badge";
 import "../styles/CasesTable.css";
 
-const CasesTable = ({ states }) => {
-  const statesCases = states
+const CasesTable = () => {
+  const [countries, setCountries] = useState([]);
+  useEffect(() => {
+    const getCountriesData = async () => {
+      const response = await axios.get(
+        "https://disease.sh/v3/covid-19/countries"
+      );
+      setCountries(response.data);
+    };
+
+    getCountriesData();
+  }, []);
+
+  const countryCases = countries
     .sort((a, b) => b.cases - a.cases)
-    .map((state) => {
+    .map((country) => {
       return (
         <ListGroup.Item
           className="d-flex justify-content-between"
-          key={state.state}
+          key={country.country}
         >
-          {state.state}
-          <p>{state.cases}</p>
+          <div>
+            {" "}
+            <img
+              className="CasesTable_flag mr-2"
+              src={country.countryInfo.flag}
+              alt=""
+            />
+            {country.country}
+          </div>
+          <p>
+            {country.cases}{" "}
+            <Badge variant="info">
+              <i className="fas fa-arrow-up"></i> {country.todayCases}
+            </Badge>{" "}
+          </p>
         </ListGroup.Item>
       );
     });
   return (
-    <ListGroup className="Cases-table">
-      <ListGroup.Item className="d-flex justify-content-between">
-        <h3>State</h3>
-        <h3>Cases</h3>
-      </ListGroup.Item>
-      {statesCases}
-    </ListGroup>
+    <>
+      <div className="d-flex justify-content-between p-4 bg-info text-light">
+        <h4>Country</h4>
+        <h4>Cases</h4>
+      </div>
+      <ListGroup className="CasesTable">{countryCases}</ListGroup>
+    </>
   );
 };
 

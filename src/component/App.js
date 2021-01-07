@@ -8,42 +8,61 @@ import CasesTable from "./CasesTable";
 import InfoCard from "./InfoCard";
 
 const App = () => {
-  const [data, setData] = useState([]);
+  const [selectedState, setSelectedState] = useState({});
+  const [state, setState] = useState("");
+
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get("https://disease.sh/v3/covid-19/states");
-      console.log(response.data);
-      setData(response.data);
+    const getAllStateData = async () => {
+      const response = await axios.get(
+        "https://disease.sh/v3/covid-19/countries/usa?strict=true"
+      );
+      setSelectedState(response.data);
     };
-    fetchData();
+
+    getAllStateData();
   }, []);
 
-  const dataInfo = data.cases && (
-    <div>
-      <h3>Cases: {data.cases}</h3>``
-    </div>
-  );
+  const location = selectedState.state
+    ? selectedState.state
+    : selectedState.country;
   return (
     <>
-      <Header states={data} />
-
       <Container fluid className="mt-4">
+        <Header />
+
         <Row>
-          <Col xs={8}>
+          <Col xs={12} lg={8}>
             <Row>
               <Col sm={4}>
-                <InfoCard />
+                <InfoCard
+                  title="INFECTED "
+                  cases={selectedState.cases}
+                  today={selectedState.todayCases}
+                  text={`Number Of  infected Cases From Covid 19 In ${location} `}
+                  color="secondary"
+                />
               </Col>
               <Col sm={4}>
-                <InfoCard />
+                <InfoCard
+                  title="RECOVERD"
+                  cases={selectedState.recovered}
+                  color="success"
+                  text={`Number Of  Recovered Cases From Covid 19 In ${location} `}
+                />
               </Col>
               <Col sm={4}>
-                <InfoCard />
+                <InfoCard
+                  title="DEATHS"
+                  cases={selectedState.deaths}
+                  today={selectedState.todayDeaths}
+                  color="danger"
+                  text={`Number Of  Deaths From Covid 19 In ${location} `}
+                />
               </Col>
             </Row>
           </Col>
-          <Col xs={4}>
-            <CasesTable states={data} />
+          <Col xs={12} lg={4}>
+            <CasesTable />
           </Col>
         </Row>
       </Container>

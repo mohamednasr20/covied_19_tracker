@@ -1,37 +1,54 @@
-import React from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import "../styles/Header.css";
 
-const Header = ({ states }) => {
+const Header = () => {
+  const [states, setStates] = useState([]);
+
+  useEffect(() => {
+    const getStatesData = async () => {
+      const response = await axios.get("https://disease.sh/v3/covid-19/states");
+      setStates(response.data);
+    };
+
+    getStatesData();
+  }, []);
+
   const statesNames = states.map((state) => (
     <div key={state.state}>
-      <NavDropdown.Item>{state.state}</NavDropdown.Item>
+      <NavDropdown.Item
+        eventKey={state.state}
+        onSelect={(eventKey) => console.log(eventKey)}
+      >
+        {state.state}
+      </NavDropdown.Item>
       <NavDropdown.Divider />
     </div>
   ));
 
   return (
-    <Navbar
-      collapseOnSelect
-      expand="lg"
-      bg="info  "
-      variant="dark"
-      className="py-3"
-    >
-      <Navbar.Brand>COVIED 19 TRACKER</Navbar.Brand>
-      {/* <Navbar.Collapse id="responsive-navbar-nav"> */}
-      <Nav className="m-auto">
-        <DropdownButton title="Select State" variant="info">
-          <div className="Headr-dropdwon">{states.length && statesNames}</div>
-        </DropdownButton>
-      </Nav>
-      {/* <Nav> */}
-
-      {/* </Navbar.Collapse> */}
-    </Navbar>
+    <div className="d-flex py-4">
+      <h1 className="text-info">Covid 19 Tracker</h1>
+      <DropdownButton
+        title="Select State"
+        variant="info"
+        className="m-auto"
+        defaultValue
+      >
+        <div className="Headr-dropdwon">
+          <NavDropdown.Item
+            eventKey="united states"
+            onSelect={(eventKey) => console.log(eventKey)}
+          >
+            United States
+          </NavDropdown.Item>
+          <NavDropdown.Divider />
+          {states.length && statesNames}
+        </div>
+      </DropdownButton>
+    </div>
   );
 };
 

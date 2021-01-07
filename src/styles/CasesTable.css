@@ -1,4 +1,8 @@
-.Cases-table {
+.CasesTable {
   height: 80vh;
   overflow: auto;
+}
+
+.CasesTable_flag {
+  max-height: 10px;
 }
