@@ -22,7 +22,7 @@ const Chart = () => {
         label: "Cases",
         fill: true,
         lineTension: 0.5,
-        backgroundColor: "#d72323",
+        backgroundColor: "#f8edeb",
         borderColor: "#d72323",
         borderWidth: 2,
         data: data.cases ? Object.values(data.cases) : [],
