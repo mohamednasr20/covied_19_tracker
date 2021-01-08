@@ -7,6 +7,7 @@ import Header from "./Header";
 import Alert from "react-bootstrap/Alert";
 import CasesTable from "./CasesTable";
 import InfoCard from "./InfoCard";
+import Chart from "./Chart";
 
 const App = () => {
   const [selectedStateData, setSelectedStateData] = useState({});
@@ -26,7 +27,7 @@ const App = () => {
 
     const getStateData = async () => {
       const response = await axios.get(
-        `https://disease.sh/v3/covid-19/states/${state}`
+        `https://disease.sh/v3/covid-19/states/${state}?yesterday=1`
       );
       setSelectedStateData(response.data);
     };
@@ -39,16 +40,14 @@ const App = () => {
     : selectedStateData.country;
   return (
     <>
-      <Container fluid className="mt-4">
-        <Header selectState={onSelectState} state={state} />
-        <Container className="my-4 ">
-          <Alert variant="info" className="text-center">
-            <h3>{state}</h3>
-          </Alert>
-        </Container>
-
+      <Container fluid>
         <Row>
           <Col xs={12} lg={8}>
+            <Header selectState={onSelectState} state={state} />
+            <Alert variant="info" className="text-center">
+              <h3>{state}</h3>
+            </Alert>
+
             <Row>
               <Col sm={4}>
                 <InfoCard
@@ -75,6 +74,10 @@ const App = () => {
                   color="danger"
                   text={`Number Of  Deaths From Covid 19 In ${location} `}
                 />
+              </Col>
+
+              <Col>
+                <Chart />
               </Col>
             </Row>
           </Col>

@@ -3,7 +3,12 @@ import Card from "react-bootstrap/Card";
 
 const InfoCard = ({ title, cases, today, text, color }) => {
   return (
-    <Card style={{ height: "250px" }} bg={color} text="light" className="my-4">
+    <Card
+      style={{ height: "18rem" }}
+      bg={color}
+      text="light"
+      className="mb-4 pb-3"
+    >
       <Card.Header>
         <h3>{title}</h3>
       </Card.Header>

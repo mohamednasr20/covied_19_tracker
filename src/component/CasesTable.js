@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import Badge from "react-bootstrap/Badge";
+import Nav from "react-bootstrap/Nav";
 import "../styles/CasesTable.css";
 
 const CasesTable = () => {
@@ -22,7 +23,7 @@ const CasesTable = () => {
     .map((country) => {
       return (
         <ListGroup.Item
-          className="d-flex justify-content-between"
+          className="d-flex justify-content-between "
           key={country.country}
         >
           <div>
@@ -44,13 +45,16 @@ const CasesTable = () => {
       );
     });
   return (
-    <>
-      <div className="d-flex justify-content-between p-4 bg-info text-light">
+    <div className="CasesTable">
+      <Nav
+        bg="info"
+        className="d-flex justify-content-between p-4 bg-info text-light"
+      >
         <h4>Country</h4>
         <h4>Cases</h4>
-      </div>
-      <ListGroup className="CasesTable">{countryCases}</ListGroup>
-    </>
+      </Nav>
+      <ListGroup>{countryCases}</ListGroup>
+    </div>
   );
 };
 
