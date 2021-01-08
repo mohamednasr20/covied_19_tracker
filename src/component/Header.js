@@ -4,7 +4,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import "../styles/Header.css";
 
-const Header = () => {
+const Header = ({ selectState }) => {
   const [states, setStates] = useState([]);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const Header = () => {
     <div key={state.state}>
       <NavDropdown.Item
         eventKey={state.state}
-        onSelect={(eventKey) => console.log(eventKey)}
+        onSelect={(eventKey) => selectState(eventKey)}
       >
         {state.state}
       </NavDropdown.Item>
@@ -34,13 +34,13 @@ const Header = () => {
       <DropdownButton
         title="Select State"
         variant="info"
-        className="m-auto"
+        className="ml-auto"
         defaultValue
       >
         <div className="Headr-dropdwon">
           <NavDropdown.Item
-            eventKey="united states"
-            onSelect={(eventKey) => console.log(eventKey)}
+            eventKey="United States"
+            onSelect={(eventKey) => selectState(eventKey)}
           >
             United States
           </NavDropdown.Item>

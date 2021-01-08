@@ -4,31 +4,48 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Header from "./Header";
+import Alert from "react-bootstrap/Alert";
 import CasesTable from "./CasesTable";
 import InfoCard from "./InfoCard";
 
 const App = () => {
-  const [selectedState, setSelectedState] = useState({});
-  const [state, setState] = useState("");
+  const [selectedStateData, setSelectedStateData] = useState({});
+  const [state, setState] = useState("United States");
+
+  const onSelectState = (val) => {
+    setState(val);
+  };
 
   useEffect(() => {
     const getAllStateData = async () => {
       const response = await axios.get(
         "https://disease.sh/v3/covid-19/countries/usa?strict=true"
       );
-      setSelectedState(response.data);
+      setSelectedStateData(response.data);
     };
 
-    getAllStateData();
-  }, []);
+    const getStateData = async () => {
+      const response = await axios.get(
+        `https://disease.sh/v3/covid-19/states/${state}`
+      );
+      setSelectedStateData(response.data);
+    };
 
-  const location = selectedState.state
-    ? selectedState.state
-    : selectedState.country;
+    state === "United States" ? getAllStateData() : getStateData();
+  }, [state]);
+
+  const location = selectedStateData.state
+    ? selectedStateData.state
+    : selectedStateData.country;
   return (
     <>
       <Container fluid className="mt-4">
-        <Header />
+        <Header selectState={onSelectState} state={state} />
+        <Container className="my-4 ">
+          <Alert variant="info" className="text-center">
+            <h3>{state}</h3>
+          </Alert>
+        </Container>
 
         <Row>
           <Col xs={12} lg={8}>
@@ -36,8 +53,8 @@ const App = () => {
               <Col sm={4}>
                 <InfoCard
                   title="INFECTED "
-                  cases={selectedState.cases}
-                  today={selectedState.todayCases}
+                  cases={selectedStateData.cases}
+                  today={selectedStateData.todayCases}
                   text={`Number Of  infected Cases From Covid 19 In ${location} `}
                   color="secondary"
                 />
@@ -45,7 +62,7 @@ const App = () => {
               <Col sm={4}>
                 <InfoCard
                   title="RECOVERD"
-                  cases={selectedState.recovered}
+                  cases={selectedStateData.recovered}
                   color="success"
                   text={`Number Of  Recovered Cases From Covid 19 In ${location} `}
                 />
@@ -53,8 +70,8 @@ const App = () => {
               <Col sm={4}>
                 <InfoCard
                   title="DEATHS"
-                  cases={selectedState.deaths}
-                  today={selectedState.todayDeaths}
+                  cases={selectedStateData.deaths}
+                  today={selectedStateData.todayDeaths}
                   color="danger"
                   text={`Number Of  Deaths From Covid 19 In ${location} `}
                 />
