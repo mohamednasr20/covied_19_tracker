@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/covied_19_tracker/static/css/main.cd60d439.chunk.css",
-    "main.js": "/covied_19_tracker/static/js/main.1bef184a.chunk.js",
-    "main.js.map": "/covied_19_tracker/static/js/main.1bef184a.chunk.js.map",
+    "main.js": "/covied_19_tracker/static/js/main.976ac23b.chunk.js",
+    "main.js.map": "/covied_19_tracker/static/js/main.976ac23b.chunk.js.map",
     "runtime-main.js": "/covied_19_tracker/static/js/runtime-main.c215f90f.js",
     "runtime-main.js.map": "/covied_19_tracker/static/js/runtime-main.c215f90f.js.map",
     "static/js/2.ede1149f.chunk.js": "/covied_19_tracker/static/js/2.ede1149f.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.c215f90f.js",
     "static/js/2.ede1149f.chunk.js",
     "static/css/main.cd60d439.chunk.css",
-    "static/js/main.1bef184a.chunk.js"
+    "static/js/main.976ac23b.chunk.js"
   ]
 }
